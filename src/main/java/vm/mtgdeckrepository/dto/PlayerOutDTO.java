@@ -1,28 +1,15 @@
-package vm.mtgdeckrepository.domain;
+package vm.mtgdeckrepository.dto;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 
-@Entity
-public class Player {
-    @Id
-    @GeneratedValue
+public class PlayerOutDTO {
     private long player_id;
-
-    @Column(unique = true)
     private String username;
-
-    private String password;
-
     private boolean administrator;
 
-    public Player() {}
-
-    public Player(String username, String password, boolean administrator) {
+    public PlayerOutDTO(long player_id, String username, boolean administrator) {
+        this.player_id = player_id;
         this.username = username;
-        this.password = password;
         this.administrator = administrator;
     }
 
@@ -40,14 +27,6 @@ public class Player {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public boolean isAdministrator() {

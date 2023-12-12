@@ -1,0 +1,2 @@
+INSERT INTO PLAYER (player_id, username, password, administrator) VALUES (1, 'admin', 'password', TRUE);
+INSERT INTO PLAYER (player_id, username, password, administrator) VALUES (2, 'dean', '123456', FALSE);

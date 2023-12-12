@@ -31,6 +31,10 @@ public class CardInDeck {
         return card_in_deck_id;
     }
 
+    public void setCard_in_deck_id(long card_in_deck_id) {
+        this.card_in_deck_id = card_in_deck_id;
+    }
+
     public Deck getDeck() {
         return deck;
     }

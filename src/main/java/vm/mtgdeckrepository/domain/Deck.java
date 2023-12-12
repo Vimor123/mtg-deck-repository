@@ -34,6 +34,10 @@ public class Deck {
         return deck_id;
     }
 
+    public void setDeck_id(Long deck_id) {
+        this.deck_id = deck_id;
+    }
+
     public Player getCreator() {
         return creator;
     }
