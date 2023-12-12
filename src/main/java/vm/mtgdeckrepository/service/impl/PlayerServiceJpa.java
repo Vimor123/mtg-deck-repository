@@ -66,7 +66,7 @@ public class PlayerServiceJpa implements PlayerService {
             throw new EntityMissingException("Player not found.");
         }
 
-        if (playerRepo.existsByUsername(username)) {
+        if (playerRepo.existsByUsername(username) && !playerCheck.get().getUsername().equals(username)) {
             throw new IllegalArgumentException("Username already exists.");
         }
 
@@ -83,10 +83,9 @@ public class PlayerServiceJpa implements PlayerService {
     @Override
     public void deletePlayer(long id) {
         Optional<Player> player = playerRepo.findById(id);
-        if (player.isEmpty()) {
-            throw new EntityMissingException("Player not found.");
+        if (!player.isEmpty()) {
+            playerRepo.delete(player.get());
         }
-        playerRepo.delete(player.get());
     }
 
     @Override
