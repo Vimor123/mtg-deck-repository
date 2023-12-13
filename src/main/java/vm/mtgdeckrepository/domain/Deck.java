@@ -23,11 +23,10 @@ public class Deck {
 
     public Deck() {}
 
-    public Deck(Player creator, String deck_name, String format, Set<CardInDeck> cards) {
+    public Deck(Player creator, String deck_name, String format) {
         this.creator = creator;
         this.deck_name = deck_name;
         this.format = format;
-        this.cards = cards;
     }
 
     public Long getDeck_id() {
