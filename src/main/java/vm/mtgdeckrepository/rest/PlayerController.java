@@ -99,7 +99,7 @@ public class PlayerController {
     }
 
     @DeleteMapping("/{id}")
-    void delete(@RequestHeader(value = "Authorization", required = false) String auth, @PathVariable Long id) {
+    public void delete(@RequestHeader(value = "Authorization", required = false) String auth, @PathVariable Long id) {
         if (auth == null) {
             throw new UnauthorizedAccessException("Wrong username/password.");
         }

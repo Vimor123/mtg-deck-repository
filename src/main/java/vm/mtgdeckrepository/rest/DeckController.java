@@ -43,7 +43,7 @@ public class DeckController {
                     sideboard.add(new CardInDeckDTO(card.getCard_name(), card.getQuantity()));
                 }
             }
-            deckOutDTOs.add(new DeckOutDTO(creator, deck_name, format, main_deck, sideboard));
+            deckOutDTOs.add(new DeckOutDTO(deck.getDeck_id(), creator, deck_name, format, main_deck, sideboard));
         }
         return deckOutDTOs;
     }
@@ -63,7 +63,7 @@ public class DeckController {
                 sideboard.add(new CardInDeckDTO(card.getCard_name(), card.getQuantity()));
             }
         }
-        return new DeckOutDTO(creator, deck_name, format, main_deck, sideboard);
+        return new DeckOutDTO(deck.getDeck_id(), creator, deck_name, format, main_deck, sideboard);
     }
 
     @PostMapping("")
@@ -93,13 +93,89 @@ public class DeckController {
             }
         }
 
-        DeckOutDTO deckOutDTO = new DeckOutDTO(creator, deck_name, format, main_deck, sideboard);
+        DeckOutDTO deckOutDTO = new DeckOutDTO(deck.getDeck_id(), creator, deck_name, format, main_deck, sideboard);
 
         return new ResponseEntity<>(deckOutDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public DeckOutDTO edit(@RequestBody DeckInDTO deckInDTO, @RequestHeader(value = "Authorization", required = false) String auth, @PathVariable Long id) {
-        return null;
+        if (auth == null) {
+            throw new UnauthorizedAccessException("Wrong username/password.");
+        }
+        byte[] decodedBytes = Base64.getDecoder().decode(auth.substring(6));
+        String decodedString = new String(decodedBytes);
+        String username = decodedString.substring(0, decodedString.indexOf(":"));
+        String password = decodedString.substring(decodedString.indexOf(":") + 1);
+
+        Player player = playerService.login(username, password);
+
+        Deck deckToUpdate = deckService.getById(id);
+
+        if (!player.getUsername().equals(deckToUpdate.getCreator().getUsername())) {
+            throw new IllegalArgumentException("You can't change other player's decks.");
+        }
+
+        String deck_name = deckToUpdate.getDeck_name();
+        if (deckInDTO.getDeck_name() != null) {
+            deck_name = deckInDTO.getDeck_name();
+        }
+
+        String format = deckToUpdate.getFormat();
+        if (deckInDTO.getFormat() != null) {
+            format = deckInDTO.getFormat();
+        }
+
+        List<CardInDeckDTO> main_deck = new ArrayList<>();
+        List<CardInDeckDTO> sideboard = new ArrayList<>();
+        for (CardInDeck card : deckToUpdate.getCards()) {
+            if (card.isIn_main_deck()) {
+                main_deck.add(new CardInDeckDTO(card.getCard_name(), card.getQuantity()));
+            } else {
+                sideboard.add(new CardInDeckDTO(card.getCard_name(), card.getQuantity()));
+            }
+        }
+
+        if (deckInDTO.getMain_deck() != null) {
+            main_deck = deckInDTO.getMain_deck();
+        }
+        if (deckInDTO.getSideboard() != null) {
+            sideboard = deckInDTO.getSideboard();
+        }
+
+
+        Deck updatedDeck = deckService.updateDeck(id, deck_name, format, main_deck, sideboard);
+
+        PlayerOutDTO creator = new PlayerOutDTO(player.getPlayer_id(), player.getUsername(), player.isAdministrator());
+        String updatedDeck_name = updatedDeck.getDeck_name();
+        String updatedFormat = updatedDeck.getFormat();
+        List<CardInDeckDTO> updatedMain_deck = new ArrayList<>();
+        List<CardInDeckDTO> updatedSideboard = new ArrayList<>();
+        for (CardInDeck card : updatedDeck.getCards()) {
+            if (card.isIn_main_deck()) {
+                updatedMain_deck.add(new CardInDeckDTO(card.getCard_name(), card.getQuantity()));
+            } else {
+                updatedSideboard.add(new CardInDeckDTO(card.getCard_name(), card.getQuantity()));
+            }
+        }
+
+        DeckOutDTO deckOutDTO = new DeckOutDTO(updatedDeck.getDeck_id(),creator, updatedDeck_name, updatedFormat, updatedMain_deck, updatedSideboard);
+
+        return deckOutDTO;
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@RequestHeader(value = "Authorization", required = false) String auth, @PathVariable Long id) {
+        if (auth == null) {
+            throw new UnauthorizedAccessException("Wrong username/password.");
+        }
+        byte[] decodedBytes = Base64.getDecoder().decode(auth.substring(6));
+        String decodedString = new String(decodedBytes);
+        String username = decodedString.substring(0, decodedString.indexOf(":"));
+        String password = decodedString.substring(decodedString.indexOf(":") + 1);
+
+        Player player = playerService.login(username, password);
+
+        deckService.deleteDeck(id, player.getUsername());
     }
 }

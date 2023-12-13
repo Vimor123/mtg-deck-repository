@@ -3,6 +3,7 @@ package vm.mtgdeckrepository.dto;
 import java.util.List;
 
 public class DeckOutDTO {
+    private long deck_id;
     private PlayerOutDTO creator;
     private String deck_name;
     private String format;
@@ -11,12 +12,21 @@ public class DeckOutDTO {
 
     public DeckOutDTO() {}
 
-    public DeckOutDTO(PlayerOutDTO creator, String deck_name, String format, List<CardInDeckDTO> main_deck, List<CardInDeckDTO> sideboard) {
+    public DeckOutDTO(long deck_id, PlayerOutDTO creator, String deck_name, String format, List<CardInDeckDTO> main_deck, List<CardInDeckDTO> sideboard) {
+        this.deck_id = deck_id;
         this.creator = creator;
         this.deck_name = deck_name;
         this.format = format;
         this.main_deck = main_deck;
         this.sideboard = sideboard;
+    }
+
+    public long getDeck_id() {
+        return deck_id;
+    }
+
+    public void setDeck_id(long deck_id) {
+        this.deck_id = deck_id;
     }
 
     public PlayerOutDTO getCreator() {

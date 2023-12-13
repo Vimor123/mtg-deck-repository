@@ -11,5 +11,5 @@ public interface DeckService {
     List<Deck> getAll();
     Deck getById(long id);
     Deck updateDeck(long id, String deck_name, String format, List<CardInDeckDTO> main_deck, List<CardInDeckDTO> sideboard);
-    void deleteDeck(long id);
+    void deleteDeck(long id, String username);
 }

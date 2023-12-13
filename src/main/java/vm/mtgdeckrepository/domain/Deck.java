@@ -2,6 +2,7 @@ package vm.mtgdeckrepository.domain;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -27,6 +28,7 @@ public class Deck {
         this.creator = creator;
         this.deck_name = deck_name;
         this.format = format;
+        this.cards = new HashSet<>();
     }
 
     public Long getDeck_id() {
