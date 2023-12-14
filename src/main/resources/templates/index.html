@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> MTG Deck Repository </title>
+    <link href="main.css" rel="stylesheet"/>
+</head>
+<body>
+    <h1 class="main-title">
+        MTG Deck Repository - Documentation
+    </h1>
+    <span class="sub-main-title">
+        Available resources on MTG Deck Repository (all resources prefixed with /api/):
+    </span>
+    <div class="resource-div">
+        <h2 class="resource-title"> Players </h2>
+        <span> Available methods for players: </span>
+        <div class="method-div">
+            <h3 class="method-title"> GET /players </h3>
+            <span class="method-desc"> Returns a list of all registered players </span>
+            <br/>
+            <span class="method-desc"> JSON format: </span>
+            <pre>
+                [
+                    {
+                        "player_id" : ...,
+                        "username" : ...,
+                        "administrator" : true/false
+                    },
+                    ...
+                ]
+            </pre>
+        </div>
+        <div class="method-div">
+            <h3 class="method-title"> GET /players/{id} </h3>
+            <span class="method-desc"> Returns the player with the chosen id </span>
+            <br/>
+            <span class="method-desc"> JSON format: </span>
+            <pre>
+                {
+                    "player_id" : ...,
+                    "username" : ...,
+                    "administrator" : true/false
+                }
+            </pre>
+        </div>
+        <div class="method-div">
+            <h3 class="method-title"> POST /players </h3>
+            <span class="method-desc"> Creates a new player </span>
+            <br/>
+            <span class="method-desc"> <b> Administrator only action! Basic authentication required! </b> </span>
+            <br/>
+            <span class="method-desc"> Request JSON: </span>
+            <pre>
+                {
+                    "username" : ...,
+                    "password" : ...,
+                    "administrator" : true/false
+                }
+            </pre>
+        </div>
+        <div class="method-div">
+            <h3 class="method-title"> PUT /players/{id} </h3>
+            <span class="method-desc"> Updates the player with the chosen id </span>
+            <br/>
+            <span class="method-desc"> <b> You may only update your own profile unless you are an administrator! Basic authentication required! </b> </span>
+            <br/>
+            <span class="method-desc"> Request JSON: </span>
+            <pre>
+                {
+                    "username" : ...,
+                    "password" : ...,
+                    "administrator" : true/false
+                }
+            </pre>
+        </div>
+        <div class="method-div">
+            <h3 class="method-title"> DELETE /players/{id} </h3>
+            <span class="method-desc"> Deletes the player with the chosen id </span>
+            <br/>
+            <span class="method-desc"> <b> Administrator only action! Basic authentication required! </b> </span>
+        </div>
+        <div class="method-div">
+            <h3 class="method-title"> GET /players/{id}/decks </h3>
+            <span class="method-desc"> Returns the list of all decks created by the chosen player </span>
+            <br/>
+            <span class="method-desc"> JSON format: </span>
+            <pre>
+                [
+                    {
+                        "deck_id" : ...,
+                        "creator" : {
+                            "player_id" : ...,
+                            "username" : ...,
+                            "administrator" : true/false
+                        },
+                        "deck_name" : ...,
+                        "format" : ...,
+                        "main_deck" : [
+                            { "card_name" : ..., "quantity" : ... },
+                            { "card_name" : ..., "quantity" : ... },
+                            { "card_name" : ..., "quantity" : ... },
+                            ...
+                        ],
+                        "sideboard" : [
+                            { "card_name" : ..., "quantity" : ... },
+                        ]
+                    },
+                    ...
+                ]
+            </pre>
+        </div>
+    </div>
+    <div class="resource-div">
+        <h2 class="resource-title"> Decks </h2>
+        <span> Available methods for decks: </span>
+        <div class="method-div">
+            <h3 class="method-title"> GET /decks </h3>
+        </div>
+        <div class="method-div">
+            <h3 class="method-title"> GET /decks/{id} </h3>
+        </div>
+        <div class="method-div">
+            <h3 class="method-title"> POST /decks </h3>
+        </div>
+        <div class="method-div">
+            <h3 class="method-title"> PUT /decks/{id} </h3>
+        </div>
+        <div class="method-div">
+            <h3 class="method-title"> DELETE /decks/{id} </h3>
+        </div>
+    </div>
+</body>
+</html>

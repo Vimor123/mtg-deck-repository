@@ -1,0 +1,34 @@
+body {
+    font-family: Verdana;
+}
+
+.main-title {
+    margin: 1.2em;
+    font-size: 1.5em;
+}
+
+.sub-main-title {
+    margin: 1.2em;
+    font-size: 1em;
+}
+
+.resource-div {
+    margin: 2.5em;
+}
+
+.resource-title {
+    font-size: 1.2em;
+}
+
+.method-div {
+    margin: 2em;
+}
+
+.method-title {
+    font-size: 1em;
+}
+
+.method-desc {
+    font-size: 0.8em;
+    margin: 1.2em;
+}
