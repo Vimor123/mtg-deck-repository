@@ -5,7 +5,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vm.mtgdeckrepository.domain.CardInDeck;
+import vm.mtgdeckrepository.domain.Deck;
 import vm.mtgdeckrepository.domain.Player;
+import vm.mtgdeckrepository.dto.CardInDeckDTO;
+import vm.mtgdeckrepository.dto.DeckOutDTO;
 import vm.mtgdeckrepository.dto.PlayerInDTO;
 import vm.mtgdeckrepository.dto.PlayerOutDTO;
 import vm.mtgdeckrepository.error.RequestDeniedException;
@@ -114,5 +118,29 @@ public class PlayerController {
         }
 
         playerService.deletePlayer(id);
+    }
+
+    @GetMapping("/{id}/decks")
+    public List<DeckOutDTO> getDecksByPlayer(@PathVariable Long id) {
+        List<Deck> decks = playerService.decksByPlayer(id);
+
+        List<DeckOutDTO> deckOutDTOs = new ArrayList<>();
+        for (Deck deck : decks) {
+            PlayerOutDTO creator = new PlayerOutDTO(deck.getCreator().getPlayer_id(), deck.getCreator().getUsername(), deck.getCreator().isAdministrator());
+            String deck_name = deck.getDeck_name();
+            String format = deck.getFormat();
+            List<CardInDeckDTO> main_deck = new ArrayList<>();
+            List<CardInDeckDTO> sideboard = new ArrayList<>();
+            for (CardInDeck card : deck.getCards()) {
+                if (card.isIn_main_deck()) {
+                    main_deck.add(new CardInDeckDTO(card.getCard_name(), card.getQuantity()));
+                } else {
+                    sideboard.add(new CardInDeckDTO(card.getCard_name(), card.getQuantity()));
+                }
+            }
+            deckOutDTOs.add(new DeckOutDTO(deck.getDeck_id(), creator, deck_name, format, main_deck, sideboard));
+        }
+
+        return deckOutDTOs;
     }
 }

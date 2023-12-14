@@ -3,7 +3,9 @@ package vm.mtgdeckrepository.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import vm.mtgdeckrepository.dao.DeckRepository;
 import vm.mtgdeckrepository.dao.PlayerRepository;
+import vm.mtgdeckrepository.domain.Deck;
 import vm.mtgdeckrepository.domain.Player;
 import vm.mtgdeckrepository.error.EntityMissingException;
 import vm.mtgdeckrepository.error.RequestDeniedException;
@@ -18,6 +20,9 @@ public class PlayerServiceJpa implements PlayerService {
 
     @Autowired
     private PlayerRepository playerRepo;
+
+    @Autowired
+    private DeckRepository deckRepo;
 
     @Override
     public Player createPlayer(String username, String password, boolean administrator) {
@@ -99,5 +104,14 @@ public class PlayerServiceJpa implements PlayerService {
             throw new UnauthorizedAccessException("Wrong username/password.");
         }
         return player;
+    }
+
+    @Override
+    public List<Deck> decksByPlayer(long id) {
+        Optional<Player> player = playerRepo.findById(id);
+        if (player.isEmpty()) {
+            throw new EntityMissingException("Player not found.");
+        }
+        return deckRepo.findAllByCreator(player.get());
     }
 }
