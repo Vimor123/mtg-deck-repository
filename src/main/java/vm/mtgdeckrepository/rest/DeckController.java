@@ -13,9 +13,7 @@ import vm.mtgdeckrepository.error.UnauthorizedAccessException;
 import vm.mtgdeckrepository.service.DeckService;
 import vm.mtgdeckrepository.service.PlayerService;
 
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/decks")
@@ -36,7 +34,17 @@ public class DeckController {
             String format = deck.getFormat();
             List<CardInDeckDTO> main_deck = new ArrayList<>();
             List<CardInDeckDTO> sideboard = new ArrayList<>();
-            for (CardInDeck card : deck.getCards()) {
+
+            Set<CardInDeck> cards = deck.getCards();
+            List<CardInDeck> cardList = new ArrayList<>();
+            for (CardInDeck card : cards) {
+                cardList.add(card);
+            }
+
+            Collections.sort(cardList,
+                    (c1, c2) -> c1.getCard_name().compareTo(c2.getCard_name()));
+
+            for (CardInDeck card : cardList) {
                 if (card.isIn_main_deck()) {
                     main_deck.add(new CardInDeckDTO(card.getCard_name(), card.getQuantity()));
                 } else {
@@ -56,7 +64,17 @@ public class DeckController {
         String format = deck.getFormat();
         List<CardInDeckDTO> main_deck = new ArrayList<>();
         List<CardInDeckDTO> sideboard = new ArrayList<>();
-        for (CardInDeck card : deck.getCards()) {
+
+        Set<CardInDeck> cards = deck.getCards();
+        List<CardInDeck> cardList = new ArrayList<>();
+        for (CardInDeck card : cards) {
+            cardList.add(card);
+        }
+
+        Collections.sort(cardList,
+                (c1, c2) -> c1.getCard_name().compareTo(c2.getCard_name()));
+
+        for (CardInDeck card : cardList) {
             if (card.isIn_main_deck()) {
                 main_deck.add(new CardInDeckDTO(card.getCard_name(), card.getQuantity()));
             } else {
@@ -85,7 +103,17 @@ public class DeckController {
         String format = deck.getFormat();
         List<CardInDeckDTO> main_deck = new ArrayList<>();
         List<CardInDeckDTO> sideboard = new ArrayList<>();
-        for (CardInDeck card : deck.getCards()) {
+
+        Set<CardInDeck> cards = deck.getCards();
+        List<CardInDeck> cardList = new ArrayList<>();
+        for (CardInDeck card : cards) {
+            cardList.add(card);
+        }
+
+        Collections.sort(cardList,
+                (c1, c2) -> c1.getCard_name().compareTo(c2.getCard_name()));
+
+        for (CardInDeck card : cardList) {
             if (card.isIn_main_deck()) {
                 main_deck.add(new CardInDeckDTO(card.getCard_name(), card.getQuantity()));
             } else {
@@ -128,7 +156,17 @@ public class DeckController {
 
         List<CardInDeckDTO> main_deck = new ArrayList<>();
         List<CardInDeckDTO> sideboard = new ArrayList<>();
-        for (CardInDeck card : deckToUpdate.getCards()) {
+
+        Set<CardInDeck> cards = deckToUpdate.getCards();
+        List<CardInDeck> cardList = new ArrayList<>();
+        for (CardInDeck card : cards) {
+            cardList.add(card);
+        }
+
+        Collections.sort(cardList,
+                (c1, c2) -> c1.getCard_name().compareTo(c2.getCard_name()));
+
+        for (CardInDeck card : cardList) {
             if (card.isIn_main_deck()) {
                 main_deck.add(new CardInDeckDTO(card.getCard_name(), card.getQuantity()));
             } else {
@@ -151,7 +189,17 @@ public class DeckController {
         String updatedFormat = updatedDeck.getFormat();
         List<CardInDeckDTO> updatedMain_deck = new ArrayList<>();
         List<CardInDeckDTO> updatedSideboard = new ArrayList<>();
-        for (CardInDeck card : updatedDeck.getCards()) {
+
+        Set<CardInDeck> updatedCards = updatedDeck.getCards();
+        List<CardInDeck> updatedCardList = new ArrayList<>();
+        for (CardInDeck card : updatedCards) {
+            updatedCardList.add(card);
+        }
+
+        Collections.sort(updatedCardList,
+                (c1, c2) -> c1.getCard_name().compareTo(c2.getCard_name()));
+
+        for (CardInDeck card : updatedCardList) {
             if (card.isIn_main_deck()) {
                 updatedMain_deck.add(new CardInDeckDTO(card.getCard_name(), card.getQuantity()));
             } else {

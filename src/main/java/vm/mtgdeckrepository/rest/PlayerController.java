@@ -17,9 +17,7 @@ import vm.mtgdeckrepository.error.UnauthorizedAccessException;
 import vm.mtgdeckrepository.service.PlayerService;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/players")
@@ -131,7 +129,17 @@ public class PlayerController {
             String format = deck.getFormat();
             List<CardInDeckDTO> main_deck = new ArrayList<>();
             List<CardInDeckDTO> sideboard = new ArrayList<>();
-            for (CardInDeck card : deck.getCards()) {
+
+            Set<CardInDeck> cards = deck.getCards();
+            List<CardInDeck> cardList = new ArrayList<>();
+            for (CardInDeck card : cards) {
+                cardList.add(card);
+            }
+
+            Collections.sort(cardList,
+                    (c1, c2) -> c1.getCard_name().compareTo(c2.getCard_name()));
+
+            for (CardInDeck card : cardList) {
                 if (card.isIn_main_deck()) {
                     main_deck.add(new CardInDeckDTO(card.getCard_name(), card.getQuantity()));
                 } else {
