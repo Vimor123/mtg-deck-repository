@@ -4,14 +4,16 @@ body {
 }
 
 .main-title {
-    margin: 1.2em;
+    margin: 1.5em;
     font-size: 1.5em;
+    color: #123759;
 }
 
 .sub-main-title {
     margin: 1.2em;
     margin-left: 2em;
     font-size: 1em;
+    color: #123759;
 }
 
 .resource-div {
@@ -22,7 +24,7 @@ body {
 }
 
 .resource-title {
-    font-size: 1.2em;
+    font-size: 1.5em;
     margin-top: 0px;
 }
 
@@ -34,10 +36,10 @@ body {
 }
 
 .method-title {
-    font-size: 1em;
+    font-size: 1.2em;
 }
 
 .method-desc {
-    font-size: 0.8em;
+    font-size: 1em;
     margin: 1.2em;
 }

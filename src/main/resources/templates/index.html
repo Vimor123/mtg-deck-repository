@@ -9,14 +9,14 @@
         MTG Deck Repository - Documentation
     </h1>
     <span class="sub-main-title">
-        Available resources on MTG Deck Repository (all resources prefixed with /api/):
+        <b> Available resources on MTG Deck Repository (all resources prefixed with /api/): </b>
     </span>
     <div class="resource-div">
         <h2 class="resource-title"> Players </h2>
         <span> Available methods for players: </span>
         <div class="method-div">
             <h3 class="method-title"> GET /players </h3>
-            <span class="method-desc"> Returns a list of all registered players </span>
+            <span class="method-desc"> Returns a list of all registered players. </span>
             <br/>
             <span class="method-desc"> JSON format: </span>
             <pre>
@@ -32,7 +32,7 @@
         </div>
         <div class="method-div">
             <h3 class="method-title"> GET /players/{id} </h3>
-            <span class="method-desc"> Returns the player with the chosen id </span>
+            <span class="method-desc"> Returns the player with the chosen id. </span>
             <br/>
             <span class="method-desc"> JSON format: </span>
             <pre>
@@ -45,7 +45,7 @@
         </div>
         <div class="method-div">
             <h3 class="method-title"> POST /players </h3>
-            <span class="method-desc"> Creates a new player </span>
+            <span class="method-desc"> Creates a new player. </span>
             <br/>
             <span class="method-desc"> <b> Administrator only action! Basic authentication required! </b> </span>
             <br/>
@@ -60,7 +60,7 @@
         </div>
         <div class="method-div">
             <h3 class="method-title"> PUT /players/{id} </h3>
-            <span class="method-desc"> Updates the player with the chosen id </span>
+            <span class="method-desc"> Updates the player with the chosen id. </span>
             <br/>
             <span class="method-desc"> <b> You may only update your own profile unless you are an administrator! Basic authentication required! </b> </span>
             <br/>
@@ -75,13 +75,13 @@
         </div>
         <div class="method-div">
             <h3 class="method-title"> DELETE /players/{id} </h3>
-            <span class="method-desc"> Deletes the player with the chosen id </span>
+            <span class="method-desc"> Deletes the player with the chosen id. </span>
             <br/>
             <span class="method-desc"> <b> Administrator only action! Basic authentication required! </b> </span>
         </div>
         <div class="method-div">
             <h3 class="method-title"> GET /players/{id}/decks </h3>
-            <span class="method-desc"> Returns the list of all decks created by the chosen player </span>
+            <span class="method-desc"> Returns the list of all decks created by the chosen player. </span>
             <br/>
             <span class="method-desc"> JSON format: </span>
             <pre>
@@ -116,18 +116,132 @@
         <span> Available methods for decks: </span>
         <div class="method-div">
             <h3 class="method-title"> GET /decks </h3>
+            <span class="method-desc"> Returns a list of all registered decks. </span>
+            <br/>
+            <span class="method-desc"> JSON format: </span>
+            <pre>
+                [
+                    {
+                        "deck_id" : ...,
+                        "creator" : {
+                            "player_id" : ...,
+                            "username" : ...,
+                            "administrator" : true/false
+                        },
+                        "deck_name" : ...,
+                        "format" : ...,
+                        "main_deck" : [
+                            { "card_name" : ..., "quantity" : ... },
+                            { "card_name" : ..., "quantity" : ... },
+                            { "card_name" : ..., "quantity" : ... },
+                            ...
+                        ],
+                        "sideboard" : [
+                            { "card_name" : ..., "quantity" : ... },
+                            ...
+                        ]
+                    },
+                    ...
+                ]
+            </pre>
         </div>
         <div class="method-div">
             <h3 class="method-title"> GET /decks/{id} </h3>
+            <span class="method-desc"> Returns the deck with the chosen id. </span>
+            <br/>
+            <span class="method-desc"> JSON format: </span>
+            <pre>
+                {
+                    "deck_id" : ...,
+                    "creator" : {
+                        "player_id" : ...,
+                        "username" : ...,
+                        "administrator" : true/false
+                    },
+                    "deck_name" : ...,
+                    "format" : ...,
+                    "main_deck" : [
+                        { "card_name" : ..., "quantity" : ... },
+                        { "card_name" : ..., "quantity" : ... },
+                        { "card_name" : ..., "quantity" : ... },
+                        ...
+                    ],
+                    "sideboard" : [
+                        { "card_name" : ..., "quantity" : ... },
+                        ...
+                    ]
+                }
+            </pre>
         </div>
         <div class="method-div">
             <h3 class="method-title"> POST /decks </h3>
+            <span class="method-desc"> Creates a new deck. </span>
+            <br/>
+            <span class="method-desc"> <b> Basic authentication required! </b> </span>
+            <br/>
+            <span class="method-desc"> Request JSON: </span>
+            <pre>
+                {
+                    "deck_name" : ...,
+                    "format" : ...,
+                    "main_deck" : [
+                        { "card_name" : ..., "quantity" : ... },
+                        { "card_name" : ..., "quantity" : ... },
+                        { "card_name" : ..., "quantity" : ... },
+                        ...
+                    ],
+                    "sideboard" : [
+                        { "card_name" : ..., "quantity" : ... },
+                        ...
+                    ]
+                }
+            </pre>
+            <br/>
+            <span class="method-desc"> Constraints for deck construction: </span>
+            <pre>
+                Supported formats are: "Standard", "Pioneer", "Modern" and "Pauper".
+                Main deck cannot have less than 60 cards.
+                Sideboard cannot have more than 15 cards.
+                You may only have 4 copies of a single card in your deck, excluding basic lands.
+            </pre>
         </div>
         <div class="method-div">
             <h3 class="method-title"> PUT /decks/{id} </h3>
+            <span class="method-desc"> Updates the deck with the chosen id. </span>
+            <br/>
+            <span class="method-desc"> <b> You may only update decks which you created! Basic authentication required! </b> </span>
+            <br/>
+            <span class="method-desc"> Request JSON: </span>
+            <pre>
+                {
+                    "deck_name" : ...,
+                    "format" : ...,
+                    "main_deck" : [
+                        { "card_name" : ..., "quantity" : ... },
+                        { "card_name" : ..., "quantity" : ... },
+                        { "card_name" : ..., "quantity" : ... },
+                        ...
+                    ],
+                    "sideboard" : [
+                        { "card_name" : ..., "quantity" : ... },
+                        ...
+                    ]
+                }
+            </pre>
+            <br/>
+            <span class="method-desc"> Constraints for deck construction:  </span>
+            <pre>
+                Supported formats are: "Standard", "Pioneer", "Modern" and "Pauper".
+                Main deck cannot have less than 60 cards.
+                Sideboard cannot have more than 15 cards.
+                You may only have 4 copies of a single card in your deck, excluding basic lands.
+            </pre>
         </div>
         <div class="method-div">
             <h3 class="method-title"> DELETE /decks/{id} </h3>
+            <span class="method-desc"> Deletes the deck with the chosen id. </span>
+            <br/>
+            <span class="method-desc"> <b> You may only delete your own decks! Basic authentication required! </b> </span>
         </div>
     </div>
 </body>
