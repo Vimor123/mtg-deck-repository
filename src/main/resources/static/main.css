@@ -1,5 +1,6 @@
 body {
     font-family: Verdana;
+    background-color: #cce1f4;
 }
 
 .main-title {
@@ -15,14 +16,21 @@ body {
 
 .resource-div {
     margin: 2.5em;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
 }
 
 .resource-title {
     font-size: 1.2em;
+    margin-top: 0px;
 }
 
 .method-div {
     margin: 2em;
+    background-color: #e4ebf2;
+    border-radius: 20px;
+    padding: 20px;
 }
 
 .method-title {
